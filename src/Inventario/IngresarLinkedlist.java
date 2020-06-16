@@ -17,8 +17,8 @@ public class IngresarLinkedlist {
                 SinglyLinkedList list= new SinglyLinkedList();
                 list.popFront();
                 
-                for(int i=0;i<list.;i++){
-                    System.out.println(" "+arreglo[i]);
+                for(int i=0;i<1000;i++){
+                    list.pushBack(t);
                 }
                 if(t==null)
                     break;

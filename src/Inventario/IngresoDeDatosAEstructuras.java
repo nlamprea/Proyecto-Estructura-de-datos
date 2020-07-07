@@ -11,5 +11,8 @@ public class IngresoDeDatosAEstructuras {
         array.leer("C:\\Users\\Sacros12\\Documents\\100datos.txt"); 
         //"C:\\Users\\Sacros12\\Documents\\NetBeansProjects\\Proyecto\\Sistema de Control de Inventario\\DatosTXT"
         SinglyLinkedList list= new SinglyLinkedList();
+        
+        list.pushBack(array);
+        list.printList();
     }
 }

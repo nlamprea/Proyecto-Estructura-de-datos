@@ -144,7 +144,7 @@ public class SinglyLinkedList<T>{
             SinglyLinkedListNode<T> p = head;
             while(p!=null){
                 
-                System.out.println(i+"#--> "+p.data);
+                System.out.println(p.data);
                 p = p.next;
                 i+=1;
             }

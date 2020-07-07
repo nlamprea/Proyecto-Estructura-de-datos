@@ -6,6 +6,7 @@
 package Pantalla_Interactivo;
 
 //import Inventario.ArrayList;
+import Inventario.HashMap;
 import java.util.ArrayList;
 import Inventario.SinglyLinkedList;
 import Inventario.Products;
@@ -20,7 +21,7 @@ public class Vista extends javax.swing.JFrame {
     /**
      * Creates new form Vista
      */
-    ArrayList<Products> ls = new ArrayList<Products>();
+     HashMap<Integer, Products> h = new HashMap<>( 11 );
     
     public Vista() {
         initComponents();
@@ -34,14 +35,15 @@ public class Vista extends javax.swing.JFrame {
             modelo2 = (new DefaultTableModel(
                     null, new String[]{
                         "Nombres",
-                        "Codigo", "Precio"}) {
+                        "Codigo", "Precio","Tipo"}) {
                 Class[] types = new Class[]{
                     java.lang.String.class,
                     java.lang.String.class,
-                    java.lang.String.class
+                    java.lang.Integer.class,
+                    java.lang.Integer.class,
                 };
                 boolean[] canEdit = new boolean[]{
-                    false, false, false
+                    false, false, false,false
                 };
 
                 @Override
@@ -54,7 +56,7 @@ public class Vista extends javax.swing.JFrame {
                     return canEdit[colIndex];
                 }
             });
-            jTable1.setModel(modelo2);
+            Table.setModel(modelo2);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString() + "error2");
         }
@@ -80,7 +82,7 @@ public class Vista extends javax.swing.JFrame {
         BE = new javax.swing.JButton();
         BET = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Table = new javax.swing.JTable();
         BB = new javax.swing.JButton();
         BS = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
@@ -102,7 +104,12 @@ public class Vista extends javax.swing.JFrame {
             }
         });
 
-        tp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar:", "Alimento ", "Bebida", "Ropa" }));
+        tp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar:", "Alimento", "Bebida", "Ropa" }));
+        tp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tpActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Sistema de Contro de Inventario");
 
@@ -127,24 +134,34 @@ public class Vista extends javax.swing.JFrame {
         });
 
         BET.setText("Eliminar Todo");
+        BET.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BETActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Nombre", "Precio", "Codigo"
+                "Nombre", "Precio", "Codigo", "Tipo"
             }
         ));
-        jTable1.setRowHeight(25);
-        jScrollPane1.setViewportView(jTable1);
+        Table.setRowHeight(25);
+        jScrollPane1.setViewportView(Table);
 
         BB.setText("Buscar");
 
         BS.setText("Salir");
+        BS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BSActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Precio");
 
@@ -257,7 +274,7 @@ public class Vista extends javax.swing.JFrame {
         if (!txn.getText().isEmpty()) {
             if (!txc.getText().isEmpty()) {
                 if (!txp.getText().isEmpty()) {
-                Agregar_Registro(txn.getText(),txp.getText(), txc.getText());
+                Agregar_Registro(txn.getText(),Integer.parseInt(txp.getText()), Integer.parseInt(txc.getText()),(String)tp.getSelectedItem());
                 } else {
                     JOptionPane.showMessageDialog(this, "Por Favor Ingrese precio del Producto");
 
@@ -274,15 +291,17 @@ public class Vista extends javax.swing.JFrame {
   
     }//GEN-LAST:event_BAActionPerformed
     
-    private void Agregar_Registro(String nombre,String precio, String codigo){
+    private void Agregar_Registro(String nombre,int precio, int codigo,String tipo){
         try{
-            DefaultTableModel tm = (DefaultTableModel) jTable1.getModel();
-            Object n[] = {nombre,precio,codigo};
+            Products p = new Products(nombre,tipo,codigo,precio);
+            h.put(codigo, p);
+            DefaultTableModel tm = (DefaultTableModel) Table.getModel();
+            Object n[] = {nombre,precio,codigo,tipo};
             tm.addRow(n);
             JOptionPane.showMessageDialog(this, "Registro añadido con exito");
             txn.setText("");
             txp.setText("");
-            txc.setText("");
+            txc.setText("");     
             txn.requestFocusInWindow();
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -299,12 +318,29 @@ public class Vista extends javax.swing.JFrame {
 
     private void BEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEActionPerformed
         // TODO add your handling code here:
-        if (jTable1.getSelectedRowCount()>0){
-           modelo2.removeRow(jTable1.getSelectedRow());
+        if (Table.getSelectedRowCount()>0){
+           modelo2.removeRow(Table.getSelectedRow());
         }else{
             JOptionPane.showMessageDialog(this, "Por Favor seleccione un registro");
         }
     }//GEN-LAST:event_BEActionPerformed
+
+    private void BSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BSActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_BSActionPerformed
+
+    private void BETActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BETActionPerformed
+        // TODO add your handling code here:
+        int elitotal = Table.getRowCount();
+        for(int i=elitotal-1;i>=0;i--){
+            modelo2.removeRow(i);
+        }
+    }//GEN-LAST:event_BETActionPerformed
+
+    private void tpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tpActionPerformed
     
     
     /**
@@ -348,6 +384,7 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JButton BE;
     private javax.swing.JButton BET;
     private javax.swing.JButton BS;
+    private javax.swing.JTable Table;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -355,7 +392,6 @@ public class Vista extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JComboBox<String> tp;
     private javax.swing.JTextField txc;
     private javax.swing.JTextField txn;

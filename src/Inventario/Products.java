@@ -13,13 +13,13 @@ public class Products<T>{
     String nombre;
     String tipo;
     String codigo;
-    String cantidad;
+    String precio;
 
-    public Products(String nombre, String tipo, String codigo,String cantidad) {
+    public Products(String nombre, String tipo, String codigo,String precio) {
         this.nombre = "";
         this.tipo = "";
         this.codigo = "";
-        this.cantidad ="";
+        this.precio ="";
     }
 
     public String getNombre() {
@@ -46,13 +46,15 @@ public class Products<T>{
         this.codigo = codigo;
     }
 
-    public String getCantidad() {
-        return cantidad;
+    public String getPrecio() {
+        return precio;
     }
 
-    public void setCantidad(String cantidad) {
-        this.cantidad = cantidad;
+    public void setPrecio(String precio) {
+        this.precio = precio;
     }
+
+    
 
     
     

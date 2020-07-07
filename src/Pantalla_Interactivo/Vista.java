@@ -6,6 +6,7 @@
 package Pantalla_Interactivo;
 
 //import Inventario.ArrayList;
+import Inventario.HashMap;
 import java.util.ArrayList;
 import Inventario.SinglyLinkedList;
 import Inventario.Products;
@@ -20,7 +21,7 @@ public class Vista extends javax.swing.JFrame {
     /**
      * Creates new form Vista
      */
-    ArrayList<Products> ls = new ArrayList<Products>();
+     HashMap<Integer, Integer> h = new HashMap<>( 11 );
     
     public Vista() {
         initComponents();

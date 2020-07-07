@@ -21,7 +21,9 @@ public class Vista extends javax.swing.JFrame {
     /**
      * Creates new form Vista
      */
+
      HashMap<Integer, Object> h = new HashMap<>( 11 );
+
     
     public Vista() {
         initComponents();

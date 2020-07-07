@@ -12,6 +12,7 @@ package Inventario;
 public class Products<T>{
     String nombre;
     String tipo;
+
     int codigo;
     int precio;
 
@@ -22,6 +23,9 @@ public class Products<T>{
         this.tipo = tipo;
         this.codigo = codigo;
         this.precio = precio;
+
+
+
     }
 
     public String getNombre() {
@@ -56,9 +60,12 @@ public class Products<T>{
         this.precio = precio;
     }
 
-   
 
     
+
+    
+    
+
     
 
     

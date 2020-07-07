@@ -6,6 +6,7 @@
 package Pantalla_Interactivo;
 import Inventario.HashMap;
 import Inventario.Products;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
@@ -14,12 +15,18 @@ import javax.swing.table.DefaultTableModel;
 public class Software extends javax.swing.JFrame {
     
     HashMap<Integer, Products> h = new HashMap<>( 20 );
-
+    DefaultTableModel m = new DefaultTableModel();
     /**
      * Creates new form Software
      */
     public Software() {
         initComponents();
+        
+        m.addColumn("Nombre");
+        m.addColumn("Precio");
+        m.addColumn("Codigo");
+        //m.addColumn("Tipo");
+        this.Table.setModel(m);
        
     }
 
@@ -34,7 +41,7 @@ public class Software extends javax.swing.JFrame {
 
         jLabel5 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
-        txtCantidad = new javax.swing.JTextField();
+        txtPrecio = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -108,8 +115,18 @@ public class Software extends javax.swing.JFrame {
         });
 
         BET.setText("EliminarTodo");
+        BET.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BETActionPerformed(evt);
+            }
+        });
 
         BSalir.setText("Salir");
+        BSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BSalirActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Tipo");
 
@@ -145,7 +162,7 @@ public class Software extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtCodigo)
                                 .addComponent(txtNombre)
-                                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -187,7 +204,7 @@ public class Software extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,37 +233,43 @@ public class Software extends javax.swing.JFrame {
     private void BAgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAgActionPerformed
         // TODO add your handling code here:
         
-        Products pro = new Products(txtNombre.getText(),txtTipo.getText(),txtCodigo.getText(),txtCantidad.getText());
-        h.put(h.size(), pro);
+        //Products pro = new Products(txtNombre.getText(),txtCodigo.getText(),txtPrecio.getText());
         
-        mostrar();
+        String []a = new String[4];
+        a[0] = txtNombre.getText();
+        a[1] = txtPrecio.getText();
+        a[2] = txtCodigo.getText();
+        m.addRow(a);
+        
     }//GEN-LAST:event_BAgActionPerformed
     
-    public void mostrar(){
-        String matriz[][] = new String[h.size()][4];
-        for (int i = 0; i < h.size(); i++) {
-            matriz[i][0] = h.get(i).getNombre();
-            matriz[i][1] = h.get(i).getPrecio();
-            matriz[i][2] = h.get(i).getCodigo();
-            matriz[i][3] = h.get(i).getTipo();
-        }
-        
-        Table.setModel(new javax.swing.table.DefaultTableModel(
-            matriz,
-            new String [] {
-                "Nombre", "Precio", "Codigo", "Tipo"
-            }
-        ));
-            
-        
-    }
+    
     private void BEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEActionPerformed
         // TODO add your handling code here:
+        int e = Table.getSelectedRowCount();
+        if (e>=0){
+            m.removeRow(e);
+        }else{
+            JOptionPane.showMessageDialog(null, "No hay Datos a eliminar");
+        }
     }//GEN-LAST:event_BEActionPerformed
 
     private void BBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_BBActionPerformed
+
+    private void BSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_BSalirActionPerformed
+
+    private void BETActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BETActionPerformed
+        // TODO add your handling code here:
+        int elitotal = Table.getRowCount();
+        for(int i=elitotal-1;i>=0;i--){
+            m.removeRow(i);
+        }
+    }//GEN-LAST:event_BETActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,9 +320,9 @@ public class Software extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtTipo;
     // End of variables declaration//GEN-END:variables
 }

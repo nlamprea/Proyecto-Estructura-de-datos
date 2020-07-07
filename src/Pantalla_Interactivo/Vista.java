@@ -21,7 +21,7 @@ public class Vista extends javax.swing.JFrame {
     /**
      * Creates new form Vista
      */
-     HashMap<Integer, Products> h = new HashMap<>( 11 );
+     HashMap<Integer, Object> h = new HashMap<>( 11 );
     
     public Vista() {
         initComponents();
@@ -155,6 +155,11 @@ public class Vista extends javax.swing.JFrame {
         jScrollPane1.setViewportView(Table);
 
         BB.setText("Buscar");
+        BB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BBActionPerformed(evt);
+            }
+        });
 
         BS.setText("Salir");
         BS.addActionListener(new java.awt.event.ActionListener() {
@@ -293,10 +298,11 @@ public class Vista extends javax.swing.JFrame {
     
     private void Agregar_Registro(String nombre,int precio, int codigo,String tipo){
         try{
-            Products p = new Products(nombre,tipo,codigo,precio);
-            h.put(codigo, p);
+           
+           
             DefaultTableModel tm = (DefaultTableModel) Table.getModel();
             Object n[] = {nombre,precio,codigo,tipo};
+            h.put(codigo, n);
             tm.addRow(n);
             JOptionPane.showMessageDialog(this, "Registro añadido con exito");
             txn.setText("");
@@ -320,6 +326,7 @@ public class Vista extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (Table.getSelectedRowCount()>0){
            modelo2.removeRow(Table.getSelectedRow());
+           h.remove(Table.getSelectedRow());
         }else{
             JOptionPane.showMessageDialog(this, "Por Favor seleccione un registro");
         }
@@ -335,12 +342,17 @@ public class Vista extends javax.swing.JFrame {
         int elitotal = Table.getRowCount();
         for(int i=elitotal-1;i>=0;i--){
             modelo2.removeRow(i);
+            h.remove(i);
         }
     }//GEN-LAST:event_BETActionPerformed
 
     private void tpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tpActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tpActionPerformed
+
+    private void BBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BBActionPerformed
     
     
     /**

@@ -12,14 +12,16 @@ package Inventario;
 public class Products<T>{
     String nombre;
     String tipo;
-    String codigo;
-    String precio;
+    int codigo;
+    int precio;
 
-    public Products(String nombre, String tipo, String codigo,String precio) {
-        this.nombre = "";
-        this.tipo = "";
-        this.codigo = "";
-        this.precio ="";
+   
+
+    public Products(String nombre, String tipo, int codigo, int precio) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.codigo = codigo;
+        this.precio = precio;
     }
 
     public String getNombre() {
@@ -38,22 +40,25 @@ public class Products<T>{
         this.tipo = tipo;
     }
 
-    public String getCodigo() {
+    public int getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
+    public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
 
-    public String getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
 
+   
+
+    
     
 
     
